@@ -37,3 +37,7 @@ tasks.named<Test>("test") {
     // Use TestNG for unit tests.
     useTestNG()
 }
+
+tasks.named<CreateStartScripts>("startScripts") {
+    dependsOn(tasks.named("shadowJar"))
+}
