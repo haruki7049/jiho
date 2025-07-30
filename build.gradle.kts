@@ -5,15 +5,17 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.14.1/userguide/building_java_projects.html in the Gradle documentation.
  */
 
-plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    application
-}
-
 repositories {
     mavenCentral()
     google()
 }
+
+plugins {
+    id("application")
+    id("org.openrewrite.build.shadow") version "2.1.0"
+}
+
+version = "0.1.0"
 
 dependencies {
     // picocli
@@ -29,7 +31,6 @@ java {
 }
 
 application {
-    // Define the main class for the application.
     mainClass = "dev.haruki7049.jiho.App"
 }
 
