@@ -18,9 +18,8 @@ plugins {
 version = "0.1.0"
 
 dependencies {
-    // picocli
-    // https://picocli.info
     implementation("info.picocli:picocli:4.7.7")
+    implementation("dev.dirs:directories:26")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

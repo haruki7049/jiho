@@ -1,7 +1,9 @@
 package dev.haruki7049.jiho;
 
+import java.io.File;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
+import dev.dirs.ProjectDirectories;
 
 public class App {
   public static void main(String[] args) {
@@ -24,8 +26,20 @@ class CLI implements Callable<Integer> {
       versionHelp = true)
   boolean showVersion;
 
+  @CommandLine.Option(
+      names = {"--config-file"},
+      description = "configuration file's PATH")
+  File configPath;
+
   @Override
   public Integer call() throws Exception {
+    if (this.configPath == null) {
+      ProjectDirectories projDirs = ProjectDirectories.from("dev", "haruki7049", "jiho");
+      this.configPath = new File(projDirs.configDir + "/config.toml");
+    }
+
+    System.out.println(this.configPath);
+
     return 0;
   }
 }
