@@ -17,7 +17,7 @@ public class App {
 class CLI implements Callable<Integer> {
   @CommandLine.Option(
       names = {"-h", "--help"},
-      description = "show this help",
+      description = "show this command's help",
       usageHelp = true)
   boolean showHelp;
 
