@@ -2,6 +2,7 @@ package dev.haruki7049.jiho;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import dev.dirs.ProjectDirectories;
@@ -35,8 +36,17 @@ class CLI implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
     if (this.configPath == null) {
+      // Get project directories
       ProjectDirectories projDirs = ProjectDirectories.from("dev", "haruki7049", "jiho");
       this.configPath = Paths.get(projDirs.configDir + "/config.toml");
+
+      // Creates config file
+      boolean is_exists = Files.exists(this.configPath);
+      if (!is_exists) {
+        Path p = Paths.get(projDirs.configDir); // Converting type
+        Files.createDirectories(p);
+        Files.createFile(this.configPath);
+      }
     }
 
     System.out.println(this.configPath);
