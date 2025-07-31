@@ -1,11 +1,13 @@
 package dev.haruki7049.jiho;
 
+import java.io.BufferedReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import dev.dirs.ProjectDirectories;
+import com.moandjiezana.toml.Toml;
 
 public class App {
   public static void main(String[] args) {
@@ -49,8 +51,26 @@ class CLI implements Callable<Integer> {
       }
     }
 
-    System.out.println(this.configPath);
+    String config = readConfigFile(this.configPath);
+    System.out.println(config);
 
     return 0;
+  }
+
+  static String readConfigFile(Path configPath) throws Exception {
+    BufferedReader br = Files.newBufferedReader(configPath);
+    StringBuilder tomlData = new StringBuilder();
+
+    // Append file's data
+    try(br){
+      String data;
+
+      while((data = br.readLine()) != null) {
+        tomlData.append(data);
+        tomlData.append("\n");
+      }
+    }
+
+    return tomlData.toString();
   }
 }
