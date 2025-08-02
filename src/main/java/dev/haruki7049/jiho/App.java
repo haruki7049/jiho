@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import dev.dirs.ProjectDirectories;
-import com.moandjiezana.toml.Toml;
 
 public class App {
   public static void main(String[] args) {
