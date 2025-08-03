@@ -1,13 +1,13 @@
 package dev.haruki7049.jiho;
 
+import com.moandjiezana.toml.Toml;
+import dev.dirs.ProjectDirectories;
 import java.io.BufferedReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
-import dev.dirs.ProjectDirectories;
-import com.moandjiezana.toml.Toml;
 
 public class App {
   public static void main(String[] args) {
@@ -64,10 +64,10 @@ class CLI implements Callable<Integer> {
     StringBuilder tomlData = new StringBuilder();
 
     // Append file's data
-    try(br){
+    try (br) {
       String data;
 
-      while((data = br.readLine()) != null) {
+      while ((data = br.readLine()) != null) {
         tomlData.append(data);
         tomlData.append("\n");
       }
