@@ -1,3 +1,7 @@
 package dev.haruki7049.jiho;
 
-public class Config {}
+import java.nio.file.Path;
+
+public class Config {
+  Path logDir;
+}
