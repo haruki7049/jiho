@@ -1,10 +1,10 @@
 package dev.haruki7049.jiho;
 
 import com.moandjiezana.toml.Toml;
-import java.util.logging.Logger;
+import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Jiho {
   Config config;
