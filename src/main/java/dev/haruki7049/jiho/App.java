@@ -44,6 +44,7 @@ class CLI implements Callable<Integer> {
     }
 
     Jiho jiho = new Jiho(this.configPath.toFile());
+    jiho.run();
 
     return 0;
   }
