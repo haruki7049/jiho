@@ -1,6 +1,7 @@
 package dev.haruki7049.jiho;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.io.File;
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -10,7 +11,7 @@ public class Jiho {
   Config config;
 
   public Jiho(File configFile) throws Exception {
-    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
     Config c = objectMapper.readValue(configFile, Config.class);
 
     this.config = c;
@@ -52,7 +53,8 @@ public class Jiho {
       }
 
       logger.info("It's the hour. Playing sound...");
-      audioManager.play();
+      int times = nextHour.getHour();
+      audioManager.play(times, this.config.duration);
     }
   }
 }
