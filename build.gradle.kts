@@ -15,8 +15,6 @@ plugins {
     id("org.openrewrite.build.shadow") version "2.1.0"
 }
 
-version = "0.1.0"
-
 dependencies {
     implementation("info.picocli:picocli:4.7.7")
     implementation("dev.dirs:directories:26")
