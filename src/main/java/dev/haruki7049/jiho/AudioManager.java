@@ -1,11 +1,11 @@
 package dev.haruki7049.jiho;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.Clip;
 import java.io.File;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 
 public class AudioManager {
   private File source;
@@ -15,8 +15,7 @@ public class AudioManager {
   }
 
   public void play() throws Exception {
-    AudioInputStream audioStream = AudioSystem
-      .getAudioInputStream(this.source);
+    AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.source);
 
     AudioFormat format = audioStream.getFormat();
     DataLine.Info info = new DataLine.Info(Clip.class, format);

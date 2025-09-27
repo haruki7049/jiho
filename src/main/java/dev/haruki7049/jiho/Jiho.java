@@ -1,11 +1,10 @@
 package dev.haruki7049.jiho;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.ZonedDateTime;
-import java.time.Duration;
 import java.io.File;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.logging.Logger;
-import java.time.Clock;
 
 public class Jiho {
   Config config;
@@ -16,8 +15,7 @@ public class Jiho {
 
     this.config = c;
 
-    if (this.config.soundSource == null)
-      throw new AudioSourceIsNullException();
+    if (this.config.soundSource == null) throw new AudioSourceIsNullException();
   }
 
   void run() throws Exception {
@@ -30,16 +28,18 @@ public class Jiho {
       // Get now time
       final ZonedDateTime now = ZonedDateTime.now();
 
-      final ZonedDateTime nextHour = now
-        .plusHours(1)
-        .withMinute(0)
-        .withSecond(0)
-        .withNano(0);
+      final ZonedDateTime nextHour = now.plusHours(1).withMinute(0).withSecond(0).withNano(0);
 
       final Duration durationUntilNextHour = Duration.between(now, nextHour);
       final long millisecondsToWait = durationUntilNextHour.toMillis();
 
-      logger.info("Current time: " + now + ". Waiting " + durationUntilNextHour.toSeconds() + " seconds until " + nextHour);
+      logger.info(
+          "Current time: "
+              + now
+              + ". Waiting "
+              + durationUntilNextHour.toSeconds()
+              + " seconds until "
+              + nextHour);
 
       // Thread sleeping
       try {
