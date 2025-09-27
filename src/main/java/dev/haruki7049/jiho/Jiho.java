@@ -15,7 +15,8 @@ public class Jiho {
 
     this.config = c;
 
-    if (this.config.soundSource == null) throw new AudioSourceIsNullException();
+    if (!this.config.soundSource.exists() || this.config.soundSource == null)
+      throw new AudioSourceIsNullException();
   }
 
   void run() throws Exception {
