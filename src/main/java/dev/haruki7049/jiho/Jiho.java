@@ -16,13 +16,13 @@ public class Jiho {
 
     this.config = c;
 
-    if (this.config.source == null)
+    if (this.config.soundSource == null)
       throw new AudioSourceIsNullException();
   }
 
   void run() throws Exception {
     Logger logger = Logger.getLogger("jiho");
-    AudioManager audioManager = new AudioManager(this.config.source);
+    AudioManager audioManager = new AudioManager(this.config.soundSource);
 
     while (true) {
       Thread.sleep(1000);

@@ -9,6 +9,6 @@ import dev.dirs.ProjectDirectories;
 public class Config {
   private static final ProjectDirectories projDirs = ProjectDirectories.from("dev", "haruki7049", "jiho");
 
-  Path dataDir = Paths.get(projDirs.dataDir);
-  File source;
+  public Path dataDir = Paths.get(projDirs.dataDir);
+  public File soundSource;
 }
