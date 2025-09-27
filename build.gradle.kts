@@ -20,7 +20,7 @@ version = "0.1.0"
 dependencies {
     implementation("info.picocli:picocli:4.7.7")
     implementation("dev.dirs:directories:26")
-    implementation("com.moandjiezana.toml:toml4j:0.7.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

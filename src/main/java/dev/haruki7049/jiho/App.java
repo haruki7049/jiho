@@ -1,8 +1,8 @@
 package dev.haruki7049.jiho;
 
-import com.moandjiezana.toml.Toml;
 import dev.dirs.ProjectDirectories;
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,43 +37,34 @@ class CLI implements Callable<Integer> {
 
   @Override
   public Integer call() throws Exception {
+    // Generate default configuration file
     if (this.configPath == null) {
-      // Get project directories
-      ProjectDirectories projDirs = ProjectDirectories.from("dev", "haruki7049", "jiho");
-      this.configPath = Paths.get(projDirs.configDir + "/config.toml");
-
-      // Creates config file
-      boolean is_exists = Files.exists(this.configPath);
-      if (!is_exists) {
-        Path p = Paths.get(projDirs.configDir); // Converting type
-        Files.createDirectories(p);
-        Files.createFile(this.configPath);
-      }
+      this.setConfigPath();
+      this.loadInitialConfig();
     }
 
-    Toml config = readConfigFile(this.configPath);
-
-    Jiho jiho = new Jiho(config);
-    jiho.run();
+    Jiho jiho = new Jiho(this.configPath.toFile());
 
     return 0;
   }
 
-  static Toml readConfigFile(Path configPath) throws Exception {
-    BufferedReader br = Files.newBufferedReader(configPath);
-    StringBuilder tomlData = new StringBuilder();
+  private void setConfigPath() {
+    // Get project directories
+    ProjectDirectories projDirs = ProjectDirectories.from("dev", "haruki7049", "jiho");
+    this.configPath = Paths.get(projDirs.configDir + "/config.json");
+  }
 
-    // Append file's data
-    try (br) {
-      String data;
+  private void loadInitialConfig() throws Exception {
+    boolean is_exists = Files.exists(this.configPath);
+    if (!is_exists) {
+      // Creates config file
+      Files.createDirectories(this.configPath.getParent());
+      Files.createFile(this.configPath);
 
-      while ((data = br.readLine()) != null) {
-        tomlData.append(data);
-        tomlData.append("\n");
-      }
+      // Write initial config
+      FileWriter filewriter = new FileWriter(this.configPath.toFile());
+      filewriter.write("{}");
+      filewriter.close();
     }
-
-    Toml result = new Toml().read(tomlData.toString());
-    return result;
   }
 }
