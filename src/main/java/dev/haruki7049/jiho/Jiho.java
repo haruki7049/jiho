@@ -53,8 +53,20 @@ public class Jiho {
       }
 
       logger.info("It's the hour. Playing sound...");
-      int times = nextHour.getHour();
+      int times = this.calculateTimes(nextHour);
       audioManager.play(times, this.config.duration);
     }
+  }
+
+  private int calculateTimes(ZonedDateTime nextHour) {
+    // 24-hour clock
+    int times = nextHour.getHour();
+
+    // To 12-hour clock
+    times = times % 12;
+    if (times == 0)
+      times = 12;
+
+    return times;
   }
 }
