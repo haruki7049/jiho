@@ -11,7 +11,7 @@ repositories {
 
 plugins {
     id("application")
-    id("org.openrewrite.build.shadow") version "2.1.0"
+    id("com.gradleup.shadow").version("9.2.2")
 }
 
 dependencies {
