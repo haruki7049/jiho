@@ -15,7 +15,7 @@ jobs:
         uses: cachix/install-nix-action@v31.6.0
       - name: gradle shadowJar
         run: |
-          nix-shell --run 'gradle shadowJar'
+          nix develop -c gradle shadowJar
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
