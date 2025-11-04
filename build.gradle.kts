@@ -8,11 +8,14 @@
 plugins {
     id("application")
     id("com.gradleup.shadow").version("9.2.2")
+    id("checkstyle")
 }
 
 dependencies {
     implementation("info.picocli:picocli:4.7.7")
     implementation("dev.dirs:directories:26")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
     implementation(project(":packages:core"))
 }
 
@@ -29,6 +32,10 @@ tasks.named<CreateStartScripts>("startScripts") {
     dependsOn(tasks.named("shadowJar"))
 }
 
+checkstyle {
+    toolVersion = "12.1.1"
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -36,6 +43,8 @@ allprojects {
 
     // Apply a specific Java toolchain to ease working on different environments.
     plugins.withType<org.gradle.api.plugins.JavaPlugin> {
+        apply(plugin = "checkstyle")
+
         java {
             toolchain {
                 languageVersion = JavaLanguageVersion.of(21)
