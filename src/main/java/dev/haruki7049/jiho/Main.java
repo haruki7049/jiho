@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
-public class App {
+public class Main {
   public static void main(String[] args) {
     CommandLine cli = new CommandLine(new CLI());
     System.exit(cli.execute(args));

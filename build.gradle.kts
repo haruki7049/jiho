@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = "dev.haruki7049.jiho.App"
+    mainClass = "dev.haruki7049.jiho.Main"
 }
 
 tasks.named<Test>("test") {
