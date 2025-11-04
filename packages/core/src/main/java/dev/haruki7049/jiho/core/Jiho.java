@@ -64,8 +64,7 @@ public class Jiho {
 
     // To 12-hour clock
     times = times % 12;
-    if (times == 0)
-      times = 12;
+    if (times == 0) times = 12;
 
     return times;
   }
