@@ -45,6 +45,10 @@ allprojects {
     plugins.withType<org.gradle.api.plugins.JavaPlugin> {
         apply(plugin = "checkstyle")
 
+        checkstyle {
+            toolVersion = "12.1.1"
+        }
+
         java {
             toolchain {
                 languageVersion = JavaLanguageVersion.of(21)
