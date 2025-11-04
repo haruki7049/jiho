@@ -5,10 +5,6 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.14.1/userguide/building_java_projects.html in the Gradle documentation.
  */
 
-repositories {
-    mavenCentral()
-}
-
 plugins {
     id("application")
     id("com.gradleup.shadow").version("9.2.2")
@@ -19,13 +15,8 @@ dependencies {
     implementation("dev.dirs:directories:26")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
-}
 
-// Apply a specific Java toolchain to ease working on different environments.
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+    implementation(project(":packages:core"))
 }
 
 application {
@@ -39,4 +30,23 @@ tasks.named<Test>("test") {
 
 tasks.named<CreateStartScripts>("startScripts") {
     dependsOn(tasks.named("shadowJar"))
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    // Apply a specific Java toolchain to ease working on different environments.
+    plugins.withType<org.gradle.api.plugins.JavaPlugin> {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(21)
+            }
+        }
+    }
+}
+
+project(":packages:core") {
+    apply(plugin = "java-library")
 }
