@@ -1,4 +1,4 @@
-package dev.haruki7049.jiho;
+package dev.haruki7049.jiho.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -20,7 +20,7 @@ public class Jiho {
       throw new AudioSourceIsNullException();
   }
 
-  void run() throws Exception {
+  public void run() throws Exception {
     Logger logger = Logger.getLogger("jiho");
     AudioManager audioManager = new AudioManager(this.config.soundSource);
 

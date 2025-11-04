@@ -1,6 +1,7 @@
 package dev.haruki7049.jiho;
 
 import dev.dirs.ProjectDirectories;
+import dev.haruki7049.jiho.core.Jiho;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;

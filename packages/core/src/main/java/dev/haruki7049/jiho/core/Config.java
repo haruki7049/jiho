@@ -1,4 +1,4 @@
-package dev.haruki7049.jiho;
+package dev.haruki7049.jiho.core;
 
 import dev.dirs.ProjectDirectories;
 import java.io.File;
