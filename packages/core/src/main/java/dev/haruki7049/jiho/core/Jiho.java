@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Injection.
  */
 public class Jiho {
-  Config config;
+  private Config config;
 
   /**
    * Constructs a new Jiho instance by loading configuration from a file.
