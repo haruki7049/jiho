@@ -2,7 +2,6 @@ package dev.haruki7049.jiho.core;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.dirs.ProjectDirectories;
 import java.io.File;
 import java.nio.file.Path;

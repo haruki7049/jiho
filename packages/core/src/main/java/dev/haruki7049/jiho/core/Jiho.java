@@ -8,10 +8,9 @@ import java.time.ZonedDateTime;
 import java.util.logging.Logger;
 
 /**
- * Main application logic class for Jiho.
- * Handles time calculation and triggers the audio player.
- * Note: This class is tightly coupled to Config loading and AudioManager.
- * Consider using Dependency Injection.
+ * Main application logic class for Jiho. Handles time calculation and triggers the audio player.
+ * Note: This class is tightly coupled to Config loading and AudioManager. Consider using Dependency
+ * Injection.
  */
 public class Jiho {
   Config config;
@@ -34,8 +33,7 @@ public class Jiho {
   }
 
   /**
-   * Runs the main loop of the Jiho application.
-   * Waits until the next hour, then plays the sound.
+   * Runs the main loop of the Jiho application. Waits until the next hour, then plays the sound.
    *
    * @throws Exception if an error occurs during execution.
    */

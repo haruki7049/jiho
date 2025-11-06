@@ -10,33 +10,27 @@ import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /**
- * CLI (Command Line Interface) handler class for Jiho.
- * This class uses picocli to parse command line arguments.
+ * CLI (Command Line Interface) handler class for Jiho. This class uses picocli to parse command
+ * line arguments.
  */
 @CommandLine.Command(name = "jiho", version = "0.1.0")
 public class Cli implements Callable<Integer> {
 
-  /**
-   * Option to display the help message.
-   */
+  /** Option to display the help message. */
   @CommandLine.Option(
       names = {"-h", "--help"},
       description = "show this command's help",
       usageHelp = true)
   boolean showHelp;
 
-  /**
-   * Option to display the version information.
-   */
+  /** Option to display the version information. */
   @CommandLine.Option(
       names = {"-v", "--version"},
       description = "show this command's version",
       versionHelp = true)
   boolean showVersion;
 
-  /**
-   * Option to specify a custom configuration file path.
-   */
+  /** Option to specify a custom configuration file path. */
   @CommandLine.Option(
       names = {"--config-file"},
       description = "configuration file's PATH")
@@ -65,8 +59,8 @@ public class Cli implements Callable<Integer> {
   }
 
   /**
-   * Sets the default configuration file path based on OS standards
-   * if no path is provided via command line.
+   * Sets the default configuration file path based on OS standards if no path is provided via
+   * command line.
    */
   private void setConfigPath() {
     // Get project directories
@@ -75,8 +69,8 @@ public class Cli implements Callable<Integer> {
   }
 
   /**
-   * Creates an initial empty configuration file ("{}") if one does not already exist
-   * at the determined config path.
+   * Creates an initial empty configuration file ("{}") if one does not already exist at the
+   * determined config path.
    *
    * @throws Exception if file I/O operations fail.
    */
