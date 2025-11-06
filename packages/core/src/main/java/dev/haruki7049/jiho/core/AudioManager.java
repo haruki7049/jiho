@@ -15,7 +15,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Concrete implementation of AudioPlayer using javax.sound.sampled. This class handles the loading
  * and playback of an audio file.
  */
-public class AudioManager {
+public class AudioManager implements AudioPlayer {
   private File source;
 
   /**
