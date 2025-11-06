@@ -1,8 +1,5 @@
 package dev.haruki7049.jiho.core;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import java.io.File;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.logging.Logger;
@@ -14,18 +11,18 @@ import java.util.logging.Logger;
  */
 public class Jiho {
   private final Config config;
+  private final AudioPlayer audioPlayer;
 
   /**
    * Constructs a new Jiho instance by loading configuration from a file.
    *
-   * @param configFile The configuration file.
+   * @param config The configuration file.
+   * @param audioPlayer The audio playback service.
    * @throws Exception if config loading fails or audio source is invalid.
    */
-  public Jiho(File configFile) throws Exception {
-    ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
-    Config c = objectMapper.readValue(configFile, Config.class);
-
-    this.config = c;
+  public Jiho(Config config, AudioPlayer audioPlayer) throws Exception {
+    this.config = config;
+    this.audioPlayer = audioPlayer;
 
     if (!this.config.soundSource.exists() || this.config.soundSource == null) {
       throw new InvalidAudioSourceException();
@@ -39,7 +36,6 @@ public class Jiho {
    */
   public void run() throws Exception {
     Logger logger = Logger.getLogger("jiho");
-    AudioManager audioManager = new AudioManager(this.config.soundSource);
 
     while (true) {
       Thread.sleep(1000);
@@ -71,7 +67,7 @@ public class Jiho {
 
       logger.info("It's the hour. Playing sound...");
       int times = this.calculateTimes(nextHour);
-      audioManager.play(times, this.config.duration);
+      this.audioPlayer.play(times, this.config.duration);
     }
   }
 

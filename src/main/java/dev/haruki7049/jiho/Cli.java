@@ -1,7 +1,13 @@
 package dev.haruki7049.jiho;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import dev.dirs.ProjectDirectories;
+import dev.haruki7049.jiho.core.AudioManager;
+import dev.haruki7049.jiho.core.AudioPlayer;
+import dev.haruki7049.jiho.core.Config;
 import dev.haruki7049.jiho.core.Jiho;
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,9 +56,18 @@ public class Cli implements Callable<Integer> {
       this.loadInitialConfig();
     }
 
-    // Note: This is a tightly coupled instantiation.
-    // This part should be modified to implement Dependency Injection.
-    Jiho jiho = new Jiho(this.configPath.toFile());
+    // Get a File
+    File configFile = this.configPath.toFile();
+
+    // Load Config
+    ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
+    Config config = objectMapper.readValue(configFile, Config.class);
+
+    // Create AudioPlayer
+    AudioPlayer audioPlayer = new AudioManager(config.soundSource);
+
+    // Create Jiho
+    Jiho jiho = new Jiho(config, audioPlayer);
     jiho.run();
 
     return 0;
