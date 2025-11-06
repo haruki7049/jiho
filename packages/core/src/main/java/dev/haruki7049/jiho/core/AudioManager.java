@@ -1,41 +1,75 @@
 package dev.haruki7049.jiho.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Concrete implementation of AudioPlayer using javax.sound.sampled. This class handles the loading
+ * and playback of an audio file.
+ */
 public class AudioManager {
   private File source;
 
+  /**
+   * Constructs an AudioManager with the audio source file.
+   *
+   * @param source The audio file to be played.
+   */
   public AudioManager(File source) {
     this.source = source;
   }
 
-  public void play(int times, Duration duration) throws Exception {
-    AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.source);
+  /**
+   * Plays the sound using Java Sound API. Ensures that both AudioInputStream and Clip resources are
+   * closed.
+   *
+   * @param times The number of times to play.
+   * @param duration The duration to wait after starting playback.
+   * @throws UnsupportedAudioFileException if the audio file format is not supported.
+   * @throws IOException if an I/O error occurs.
+   * @throws LineUnavailableException if a line cannot be opened.
+   * @throws InterruptedException if the thread is interrupted.
+   */
+  public void play(int times, Duration duration)
+      throws UnsupportedAudioFileException,
+          IOException,
+          LineUnavailableException,
+          InterruptedException {
 
-    AudioFormat format = audioStream.getFormat();
-    DataLine.Info info = new DataLine.Info(Clip.class, format);
-    Clip line = (Clip) AudioSystem.getLine(info);
+    // Use try-with-resources to ensure AudioInputStream is closed
+    try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.source)) {
+      Clip line = null;
+      try {
+        AudioFormat format = audioStream.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, format);
+        line = (Clip) AudioSystem.getLine(info);
 
-    try {
-      line.open(audioStream);
-    } finally {
-      audioStream.close();
+        // Open the clip with the audio stream.
+        // The stream is now owned by the clip.
+        line.open(audioStream);
+
+        for (int i = 0; i < times; i++) {
+          // Reset play position to the beginning
+          line.setFramePosition(0);
+
+          line.start();
+          // Wait for the specified duration
+          Thread.sleep(duration);
+        }
+      } finally {
+        // Ensure clip is closed (which also releases audio stream resources)
+        if (line != null) {
+          line.close();
+        }
+      }
     }
-
-    for (int i = 0; i < times; i++) {
-      // Reset play position
-      line.setFramePosition(0);
-
-      line.start();
-      Thread.sleep(duration);
-    }
-
-    line.close();
   }
 }
