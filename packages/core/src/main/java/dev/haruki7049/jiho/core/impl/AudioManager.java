@@ -1,5 +1,6 @@
-package dev.haruki7049.jiho.core;
+package dev.haruki7049.jiho.core.impl;
 
+import dev.haruki7049.jiho.core.AudioPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;

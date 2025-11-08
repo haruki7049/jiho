@@ -22,6 +22,8 @@ public interface AudioPlayer {
    * @throws InterruptedException if the sleeping thread is interrupted.
    */
   void play(int times, Duration duration)
-      throws UnsupportedAudioFileException, IOException, LineUnavailableException,
+      throws UnsupportedAudioFileException,
+          IOException,
+          LineUnavailableException,
           InterruptedException;
 }
