@@ -1,13 +1,6 @@
 package dev.haruki7049.jiho;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import dev.dirs.ProjectDirectories;
-import dev.haruki7049.jiho.core.AudioPlayer;
-import dev.haruki7049.jiho.core.Config;
-import dev.haruki7049.jiho.core.Jiho;
-import dev.haruki7049.jiho.core.impl.AudioManager;
-import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,19 +49,8 @@ public class Cli implements Callable<Integer> {
       this.loadInitialConfig();
     }
 
-    // Get a File
-    File configFile = this.configPath.toFile();
-
-    // Load Config
-    ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
-    Config config = objectMapper.readValue(configFile, Config.class);
-
-    // Create AudioPlayer
-    AudioPlayer audioPlayer = new AudioManager(config.soundSource);
-
-    // Create Jiho
-    Jiho jiho = new Jiho(config, audioPlayer);
-    jiho.run();
+    // Run by Runner class
+    Runner.run(this.configPath);
 
     return 0;
   }
