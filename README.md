@@ -67,7 +67,6 @@ On the first run, if the config file does not exist, an empty file (`{}`) will b
 ```json
 {
   "soundSource": "/path/to/your/custom_sound.wav",
-  "dataDir": "/path/to/data/directory"
 }
 ```
 
@@ -75,7 +74,6 @@ On the first run, if the config file does not exist, an empty file (`{}`) will b
 
 - `soundSource`: (Optional) The absolute path to a custom sound file (e.g., WAV) to play.
   - If this is omitted, or the file is not found, the application will fall back to using the built-in `default_sound.wav`.
-- `dataDir`: (Optional) A path to a data directory for the application.
 
 ## License
 
