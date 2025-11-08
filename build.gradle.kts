@@ -20,17 +20,8 @@ application {
     mainClass = "dev.haruki7049.jiho.Main"
 }
 
-tasks.named<Test>("test") {
-    // Use TestNG for unit tests.
-    useTestNG()
-}
-
 tasks.named<CreateStartScripts>("startScripts") {
     dependsOn(tasks.named("shadowJar"))
-}
-
-checkstyle {
-    toolVersion = "12.1.1"
 }
 
 allprojects {
@@ -56,9 +47,10 @@ allprojects {
                 languageVersion = JavaLanguageVersion.of(21)
             }
         }
-    }
-}
 
-project(":packages:core") {
-    apply(plugin = "java-library")
+        tasks.named<Test>("test") {
+            // Use TestNG for unit tests.
+            useTestNG()
+        }
+    }
 }
