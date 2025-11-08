@@ -38,7 +38,7 @@ public class Jiho {
     Logger logger = Logger.getLogger("jiho");
 
     while (true) {
-      Thread.sleep(1000);
+      Thread.sleep(1000); // 1000 milliseconds <- 1 second
 
       // Get now time
       final ZonedDateTime now = ZonedDateTime.now();
