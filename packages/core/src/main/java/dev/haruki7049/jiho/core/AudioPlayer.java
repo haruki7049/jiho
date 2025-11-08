@@ -26,4 +26,13 @@ public interface AudioPlayer {
           IOException,
           LineUnavailableException,
           InterruptedException;
+
+  /**
+   * Gets the actual playback duration (length) of the loaded audio source.
+   *
+   * @return The Duration of the audio clip.
+   * @throws UnsupportedAudioFileException if the audio file format is not supported.
+   * @throws IOException if an I/O error occurs when reading the file.
+   */
+  Duration getAudioDuration() throws UnsupportedAudioFileException, IOException;
 }

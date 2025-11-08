@@ -3,9 +3,10 @@ package dev.haruki7049.jiho.core.impl;
 import dev.haruki7049.jiho.core.AudioPlayer;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException; // Import
-import java.net.URL; // Import
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit; // Import for microseconds
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -51,6 +52,7 @@ public class AudioManager implements AudioPlayer {
    * @throws LineUnavailableException if a line cannot be opened.
    * @throws InterruptedException if the thread is interrupted.
    */
+  @Override
   public void play(int times, Duration duration)
       throws UnsupportedAudioFileException,
           IOException,
@@ -83,6 +85,29 @@ public class AudioManager implements AudioPlayer {
           line.close();
         }
       }
+    }
+  }
+
+  /**
+   * Gets the actual playback duration (length) of the loaded audio source. This opens a new stream
+   * to calculate the length.
+   *
+   * @return The Duration of the audio clip.
+   * @throws UnsupportedAudioFileException if the audio file format is not supported.
+   * @throws IOException if an I/O error occurs when reading the file.
+   */
+  @Override
+  public Duration getAudioDuration() throws UnsupportedAudioFileException, IOException {
+    // Open a new stream just to get the format and frame length
+    // Use try-with-resources to ensure it's closed immediately after
+    try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.sourceUrl)) {
+      AudioFormat format = audioStream.getFormat();
+      long frameLength = audioStream.getFrameLength();
+
+      // Calculate duration in microseconds
+      long microseconds = (long) ((frameLength / format.getFrameRate()) * 1000000);
+
+      return Duration.of(microseconds, ChronoUnit.MICROS);
     }
   }
 }

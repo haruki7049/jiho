@@ -2,6 +2,7 @@ package dev.haruki7049.jiho.core;
 
 import static org.testng.Assert.assertEquals;
 
+import dev.haruki7049.jiho.core.config.Config;
 import java.lang.reflect.Method;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,9 +20,15 @@ public class JihoTest {
    */
   private int invokeCalculateTimes(ZonedDateTime time) throws Exception {
     // Need an instance to invoke the method on.
-    // The constructor is clean, so passing nulls is safe
-    // because calculateTimes doesn't use instance fields.
-    Jiho instance = new Jiho(null, null);
+
+    // Create a mock Config object that provides a non-null duration.
+    // This prevents the Jiho constructor from trying to call audioPlayer.getAudioDuration(),
+    // which would fail because we pass null for the audioPlayer.
+    Config mockConfig = new Config(null, null);
+
+    // Pass the mockConfig and null for audioPlayer.
+    // This is safe because calculateTimes() doesn't use either field.
+    Jiho instance = new Jiho(mockConfig, null);
 
     // Get the private method
     Method method = Jiho.class.getDeclaredMethod("calculateTimes", ZonedDateTime.class);

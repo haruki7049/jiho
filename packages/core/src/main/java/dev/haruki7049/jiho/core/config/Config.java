@@ -2,21 +2,14 @@ package dev.haruki7049.jiho.core.config;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import dev.dirs.ProjectDirectories;
 import java.io.File;
 import java.nio.file.Path;
-import java.time.Duration;
 
 /**
  * Represents the application configuration, loaded from JSON. This class holds settings required by
- * the application, such as file paths and durations.
+ * the application, such as file paths.
  */
 public class Config {
-
-  /** Project-specific directories utility, used for determining default paths. */
-  private static final ProjectDirectories projDirs =
-      ProjectDirectories.from("dev", "haruki7049", "jiho");
-
   /**
    * The directory path for storing application data. Exposed to Gson for
    * serialization/deserialization.
@@ -34,24 +27,14 @@ public class Config {
   private final File soundSource;
 
   /**
-   * The duration for an operation (e.g., how long a sound plays or a task runs). Exposed to Gson
-   * for serialization/deserialization.
-   */
-  @SerializedName("duration")
-  @Expose
-  private final Duration duration;
-
-  /**
    * Constructs a new Config instance with specified settings.
    *
    * @param dataDir The directory path for storing application data.
    * @param soundSource The sound file to be played.
-   * @param duration The duration for the relevant operation.
    */
-  public Config(Path dataDir, File soundSource, Duration duration) {
+  public Config(Path dataDir, File soundSource) {
     this.dataDir = dataDir;
     this.soundSource = soundSource;
-    this.duration = duration;
   }
 
   /**
@@ -70,14 +53,5 @@ public class Config {
    */
   public File getSoundSource() {
     return this.soundSource;
-  }
-
-  /**
-   * Gets the configured duration.
-   *
-   * @return The {@link Duration} value.
-   */
-  public Duration getDuration() {
-    return this.duration;
   }
 }

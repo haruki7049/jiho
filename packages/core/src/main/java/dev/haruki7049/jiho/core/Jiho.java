@@ -1,9 +1,11 @@
 package dev.haruki7049.jiho.core;
 
 import dev.haruki7049.jiho.core.config.Config;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.logging.Logger;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Main application logic class for Jiho. Handles time calculation and triggers the audio player.
@@ -13,6 +15,11 @@ import java.util.logging.Logger;
 public class Jiho {
   private final Config config;
   private final AudioPlayer audioPlayer;
+  private final Duration playbackDuration; // Holds the resolved duration
+
+  // Define a default buffer to add to the audio length
+  // This ensures playback finishes before the sleep ends.
+  private static final Duration DEFAULT_INTERVAL_BUFFER = Duration.ofMillis(500); // 0.5s buffer
 
   /**
    * Constructs a new Jiho instance by loading configuration from a file.
@@ -21,9 +28,32 @@ public class Jiho {
    * @param audioPlayer The audio playback service.
    * @throws Exception if config loading fails or audio source is invalid.
    */
-  public Jiho(Config config, AudioPlayer audioPlayer) throws Exception {
+  public Jiho(Config config, AudioPlayer audioPlayer)
+      throws UnsupportedAudioFileException, IOException {
     this.config = config;
     this.audioPlayer = audioPlayer;
+
+    // Resolve the playback duration once during construction
+    this.playbackDuration = this.resolvePlaybackDuration(config, audioPlayer);
+  }
+
+  /**
+   * Determines the correct duration to use. Uses config value if present, otherwise falls back to
+   * the audio file's length plus a buffer.
+   */
+  private Duration resolvePlaybackDuration(Config config, AudioPlayer player)
+      throws UnsupportedAudioFileException, IOException {
+    // 2. If null, fall back to the audio file's actual length
+    if (player != null) {
+      // Get the exact audio length
+      Duration audioLength = player.getAudioDuration();
+      // Add the buffer to prevent cutting off the sound
+      return audioLength.plus(DEFAULT_INTERVAL_BUFFER);
+    }
+
+    // Fallback in case player is also null (e.g., during tests)
+    // This should ideally not be hit in production
+    return Duration.ofSeconds(1);
   }
 
   /**
@@ -45,6 +75,8 @@ public class Jiho {
       final Duration durationUntilNextHour = Duration.between(now, nextHour);
       final long millisecondsToWait = durationUntilNextHour.toMillis();
 
+      final int times = this.calculateTimes(nextHour);
+
       logger.info(
           "Current time: "
               + now
@@ -52,6 +84,7 @@ public class Jiho {
               + durationUntilNextHour.toSeconds()
               + " seconds until "
               + nextHour);
+      logger.fine("Next time it will plays the sound " + times + " times...");
 
       // Thread sleeping
       try {
@@ -63,8 +96,8 @@ public class Jiho {
       }
 
       logger.info("It's the hour. Playing sound...");
-      int times = this.calculateTimes(nextHour);
-      this.audioPlayer.play(times, this.config.getDuration());
+      // Use the resolved playbackDuration instead of config.getDuration()
+      this.audioPlayer.play(times, this.playbackDuration);
     }
   }
 
