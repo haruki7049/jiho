@@ -25,7 +25,7 @@ public class Jiho {
     this.config = config;
     this.audioPlayer = audioPlayer;
 
-    if (!this.config.getSoundSource().exists() || this.config.getSoundSource() == null) {
+    if (this.config.getSoundSource() == null || !this.config.getSoundSource().exists()) {
       throw new InvalidAudioSourceException();
     }
   }
