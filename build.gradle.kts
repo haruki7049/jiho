@@ -40,6 +40,7 @@ allprojects {
         dependencies {
             implementation("dev.dirs:directories:26")
             implementation("com.google.code.gson:gson:2.13.2")
+            testImplementation("org.testng:testng:7.11.0")
         }
 
         java {
