@@ -1,13 +1,19 @@
 package dev.haruki7049.jiho;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dev.haruki7049.jiho.core.AudioPlayer;
 import dev.haruki7049.jiho.core.Jiho;
 import dev.haruki7049.jiho.core.config.Config;
+import dev.haruki7049.jiho.core.config.DurationAdapter;
+import dev.haruki7049.jiho.core.config.FileAdapter;
+import dev.haruki7049.jiho.core.config.PathAdapter;
 import dev.haruki7049.jiho.core.impl.AudioManager;
 import java.io.BufferedReader;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 
 /**
  * Handles the initialization and execution of the Jiho application. This class sets up the
@@ -27,11 +33,17 @@ public class Runner {
     BufferedReader reader = Files.newBufferedReader(configPath);
 
     // Load Config#config
-    Gson gson = new Gson();
+    Gson gson =
+        new GsonBuilder()
+            .registerTypeAdapter(Path.class, new PathAdapter())
+            .registerTypeAdapter(File.class, new FileAdapter())
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .setPrettyPrinting()
+            .create();
     Config config = gson.fromJson(reader, Config.class);
 
     // Create AudioPlayer
-    AudioPlayer audioPlayer = new AudioManager(config.soundSource);
+    AudioPlayer audioPlayer = new AudioManager(config.getSoundSource());
 
     // Create Jiho
     Jiho jiho = new Jiho(config, audioPlayer);

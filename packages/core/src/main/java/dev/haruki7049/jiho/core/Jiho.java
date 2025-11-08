@@ -25,7 +25,7 @@ public class Jiho {
     this.config = config;
     this.audioPlayer = audioPlayer;
 
-    if (!this.config.soundSource.exists() || this.config.soundSource == null) {
+    if (!this.config.getSoundSource().exists() || this.config.getSoundSource() == null) {
       throw new InvalidAudioSourceException();
     }
   }
@@ -68,7 +68,7 @@ public class Jiho {
 
       logger.info("It's the hour. Playing sound...");
       int times = this.calculateTimes(nextHour);
-      this.audioPlayer.play(times, this.config.duration);
+      this.audioPlayer.play(times, this.config.getDuration());
     }
   }
 
