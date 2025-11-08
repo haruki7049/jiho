@@ -7,11 +7,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit; // Import for microseconds
+import java.util.logging.Logger; // Import Logger
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl; // Import
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -21,6 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class AudioManager implements AudioPlayer {
   private URL sourceUrl;
+  private static final Logger logger = Logger.getLogger("jiho.audio"); // Add logger
 
   /**
    * Constructs an AudioManager with the audio source file.
@@ -47,13 +50,14 @@ public class AudioManager implements AudioPlayer {
    *
    * @param times The number of times to play.
    * @param duration The duration to wait after starting playback.
+   * @param volume The playback volume (0.0 to 1.0), or null for default.
    * @throws UnsupportedAudioFileException if the audio file format is not supported.
    * @throws IOException if an I/O error occurs.
    * @throws LineUnavailableException if a line cannot be opened.
    * @throws InterruptedException if the thread is interrupted.
    */
   @Override
-  public void play(int times, Duration duration)
+  public void play(int times, Duration duration, Float volume)
       throws UnsupportedAudioFileException,
           IOException,
           LineUnavailableException,
@@ -71,6 +75,11 @@ public class AudioManager implements AudioPlayer {
         // The stream is now owned by the clip.
         line.open(audioStream);
 
+        // Set volume if specified
+        if (volume != null) {
+          setVolume(line, volume);
+        }
+
         for (int i = 0; i < times; i++) {
           // Reset play position to the beginning
           line.setFramePosition(0);
@@ -85,6 +94,42 @@ public class AudioManager implements AudioPlayer {
           line.close();
         }
       }
+    }
+  }
+
+  /**
+   * Sets the volume of the Clip using FloatControl (Master Gain).
+   *
+   * @param clip The clip to modify.
+   * @param volume The target volume (linear scale, 0.0 to 1.0).
+   */
+  private void setVolume(Clip clip, float volume) {
+    // Check if MASTER_GAIN control is supported
+    if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+      FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+      // Clamp volume between 0.0 and 1.0
+      float clampedVolume = Math.max(0.0f, Math.min(1.0f, volume));
+
+      // Convert linear volume (0.0-1.0) to decibels (dB)
+      // The FloatControl works in dB (logarithmic scale)
+      float decibel;
+      if (clampedVolume <= 0.0001f) {
+        // Handle mute (or near-mute) by setting to minimum decibel
+        decibel = gainControl.getMinimum();
+      } else {
+        // Formula: decibel = 20 * log10(linear_ratio)
+        decibel = (float) (20.0 * Math.log10(clampedVolume));
+      }
+
+      // Ensure the calculated decibel is within the valid range of the control
+      decibel = Math.max(gainControl.getMinimum(), Math.min(decibel, gainControl.getMaximum()));
+
+      logger.fine("Setting volume. Linear: " + clampedVolume + " -> dB: " + decibel);
+      gainControl.setValue(decibel);
+
+    } else {
+      logger.warning("Volume control (MASTER_GAIN) not supported for this audio line.");
     }
   }
 

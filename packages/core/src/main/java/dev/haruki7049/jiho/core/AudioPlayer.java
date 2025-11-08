@@ -16,12 +16,13 @@ public interface AudioPlayer {
    *
    * @param times The number of times to play the sound.
    * @param duration The duration to wait or play for each repetition.
+   * @param volume The playback volume (0.0 to 1.0), or null for default.
    * @throws UnsupportedAudioFileException if the audio file format is not supported.
    * @throws IOException if an I/O error occurs.
    * @throws LineUnavailableException if a line cannot be opened.
    * @throws InterruptedException if the sleeping thread is interrupted.
    */
-  void play(int times, Duration duration)
+  void play(int times, Duration duration, Float volume)
       throws UnsupportedAudioFileException,
           IOException,
           LineUnavailableException,

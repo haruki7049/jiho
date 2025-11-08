@@ -24,7 +24,7 @@ public class JihoTest {
     // Create a mock Config object that provides a non-null duration.
     // This prevents the Jiho constructor from trying to call audioPlayer.getAudioDuration(),
     // which would fail because we pass null for the audioPlayer.
-    Config mockConfig = new Config(null);
+    Config mockConfig = new Config(null, null); // Pass null for soundSource and volume
 
     // Pass the mockConfig and null for audioPlayer.
     // This is safe because calculateTimes() doesn't use either field.

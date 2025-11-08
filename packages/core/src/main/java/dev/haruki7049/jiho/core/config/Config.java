@@ -17,13 +17,20 @@ public class Config {
   @Expose
   private final File soundSource;
 
+  /** The playback volume (0.0 to 1.0). Exposed to Gson for serialization/deserialization. */
+  @SerializedName("volume")
+  @Expose
+  private final Float volume; // Use Float (wrapper) to allow null
+
   /**
    * Constructs a new Config instance with specified settings.
    *
    * @param soundSource The sound file to be played.
+   * @param volume The playback volume (0.0 to 1.0), or null if not specified.
    */
-  public Config(File soundSource) {
+  public Config(File soundSource, Float volume) {
     this.soundSource = soundSource;
+    this.volume = volume;
   }
 
   /**
@@ -33,5 +40,14 @@ public class Config {
    */
   public File getSoundSource() {
     return this.soundSource;
+  }
+
+  /**
+   * Gets the playback volume.
+   *
+   * @return The volume (0.0 to 1.0), or null if not specified.
+   */
+  public Float getVolume() {
+    return this.volume;
   }
 }

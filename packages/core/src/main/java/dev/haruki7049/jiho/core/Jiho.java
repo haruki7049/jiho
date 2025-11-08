@@ -96,8 +96,8 @@ public class Jiho {
       }
 
       logger.info("It's the hour. Playing sound...");
-      // Use the resolved playbackDuration instead of config.getDuration()
-      this.audioPlayer.play(times, this.playbackDuration);
+      // Use the resolved playbackDuration and config volume
+      this.audioPlayer.play(times, this.playbackDuration, this.config.getVolume());
     }
   }
 
