@@ -13,9 +13,6 @@ plugins {
 
 dependencies {
     implementation("info.picocli:picocli:4.7.7")
-    implementation("dev.dirs:directories:26")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
     implementation(project(":packages:core"))
 }
 
@@ -47,6 +44,11 @@ allprojects {
 
         checkstyle {
             toolVersion = "12.1.1"
+        }
+
+        dependencies {
+            implementation("dev.dirs:directories:26")
+            implementation("com.google.code.gson:gson:2.13.2")
         }
 
         java {
