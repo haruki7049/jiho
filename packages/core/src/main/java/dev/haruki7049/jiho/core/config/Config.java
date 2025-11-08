@@ -1,4 +1,4 @@
-package dev.haruki7049.jiho.core;
+package dev.haruki7049.jiho.core.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

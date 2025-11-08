@@ -1,5 +1,6 @@
 package dev.haruki7049.jiho.core;
 
+import dev.haruki7049.jiho.core.config.Config;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.logging.Logger;
