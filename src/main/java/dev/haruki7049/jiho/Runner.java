@@ -1,12 +1,12 @@
 package dev.haruki7049.jiho;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.google.gson.Gson;
 import dev.haruki7049.jiho.core.AudioPlayer;
 import dev.haruki7049.jiho.core.Jiho;
 import dev.haruki7049.jiho.core.config.Config;
 import dev.haruki7049.jiho.core.impl.AudioManager;
-import java.io.File;
+import java.io.BufferedReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -23,12 +23,12 @@ public class Runner {
    *     occurs during runtime.
    */
   public static void run(Path configPath) throws Exception {
-    // Get a File
-    File configFile = configPath.toFile();
+    // Get a BufferedReader
+    BufferedReader reader = Files.newBufferedReader(configPath);
 
-    // Load Config
-    ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
-    Config config = objectMapper.readValue(configFile, Config.class);
+    // Load Config#config
+    Gson gson = new Gson();
+    Config config = gson.fromJson(reader, Config.class);
 
     // Create AudioPlayer
     AudioPlayer audioPlayer = new AudioManager(config.soundSource);
