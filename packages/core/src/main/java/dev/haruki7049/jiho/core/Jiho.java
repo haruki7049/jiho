@@ -24,12 +24,6 @@ public class Jiho {
   public Jiho(Config config, AudioPlayer audioPlayer) throws Exception {
     this.config = config;
     this.audioPlayer = audioPlayer;
-
-    if (this.config.getSoundSource() == null || !this.config.getSoundSource().exists()) {
-      throw new InvalidAudioSourceException(
-          "Audio source is null, or there is no audio file. Please edit your configuration. In"
-              + " Linux, it should be ~/.config/jiho/config.json");
-    }
   }
 
   /**

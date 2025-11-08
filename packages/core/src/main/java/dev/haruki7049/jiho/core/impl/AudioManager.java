@@ -3,6 +3,8 @@ package dev.haruki7049.jiho.core.impl;
 import dev.haruki7049.jiho.core.AudioPlayer;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException; // Import
+import java.net.URL; // Import
 import java.time.Duration;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -17,15 +19,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * and playback of an audio file.
  */
 public class AudioManager implements AudioPlayer {
-  private File source;
+  private URL sourceUrl;
 
   /**
    * Constructs an AudioManager with the audio source file.
    *
    * @param source The audio file to be played.
+   * @throws MalformedURLException if the file path cannot be converted to a URL.
    */
-  public AudioManager(File source) {
-    this.source = source;
+  public AudioManager(File source) throws MalformedURLException {
+    this.sourceUrl = source.toURI().toURL();
+  }
+
+  /**
+   * Constructs an AudioManager with the audio source URL (e.g., from a JAR resource).
+   *
+   * @param sourceUrl The URL to the audio resource.
+   */
+  public AudioManager(URL sourceUrl) {
+    this.sourceUrl = sourceUrl;
   }
 
   /**
@@ -46,7 +58,7 @@ public class AudioManager implements AudioPlayer {
           InterruptedException {
 
     // Use try-with-resources to ensure AudioInputStream is closed
-    try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.source)) {
+    try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(this.sourceUrl)) {
       Clip line = null;
       try {
         AudioFormat format = audioStream.getFormat();
