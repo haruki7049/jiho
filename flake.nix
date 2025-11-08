@@ -33,6 +33,9 @@
             # Java
             programs.google-java-format.enable = true;
 
+            # kotlin for Gradle
+            programs.ktlint.enable = true;
+
             # XML
             programs.xmllint.enable = true;
 
