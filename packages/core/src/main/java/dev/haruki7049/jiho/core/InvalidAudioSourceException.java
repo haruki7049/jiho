@@ -2,11 +2,12 @@ package dev.haruki7049.jiho.core;
 
 /** Exception thrown when the audio source file is null or does not exist. */
 public class InvalidAudioSourceException extends Exception {
-
-  /** Constructs the exception with a default message. */
-  public InvalidAudioSourceException() {
-    super(
-        "Audio source is null, or there is no audio file. Please edit your configuration. In Linux,"
-            + " it should be ~/.config/jiho/config.json");
+  /**
+   * Constructs the exception with a specific message.
+   *
+   * @param message The detail message.
+   */
+  public InvalidAudioSourceException(String message) {
+    super(message);
   }
 }
