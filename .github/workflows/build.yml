@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'main'
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
@@ -16,6 +18,9 @@ jobs:
       - name: gradle shadowJar
         run: |
           nix develop -c gradle shadowJar
+      - name: Rename jiho-all.jar to jiho.jar
+        run: |
+          mv build/libs/jiho-all.jar build/libs/jiho.jar
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
