@@ -76,7 +76,7 @@ On the first run, if the config file does not exist, an empty file (`{}`) will b
 - `soundSource`: (Optional) The absolute path to a custom sound file (e.g., WAV) to play.
   - If this is omitted, or the file is not found, the application will fall back to using the built-in `default_sound.wav`.
 - `volume`: (Optional) The playback volume, specified as a value from `0.0` (silent) to `1.0` (maximum).
-  - If this is omitted, the system's default volume will be used.
+  - If this is omitted, 1.0 will be used for the volume parameter.
 
 ## License
 
