@@ -7,7 +7,7 @@
 - Plays a sound every hour, on the hour.
 - Chimes 1-12 times based on the 12-hour clock (e.g., 3 times at 3:00, 12 times at 12:00).
 - Includes a default built-in sound (`default_sound.wav`).
-- Allows specifying a custom sound file via a configuration file (`config.json`).
+- Allows specifying a custom sound file and playback volume via a configuration file (`config.json`).
 - A CLI application built with picocli.
 
 ## Requirements
@@ -67,6 +67,7 @@ On the first run, if the config file does not exist, an empty file (`{}`) will b
 ```json
 {
   "soundSource": "/path/to/your/custom_sound.wav",
+  "volume": 0.8
 }
 ```
 
@@ -74,6 +75,8 @@ On the first run, if the config file does not exist, an empty file (`{}`) will b
 
 - `soundSource`: (Optional) The absolute path to a custom sound file (e.g., WAV) to play.
   - If this is omitted, or the file is not found, the application will fall back to using the built-in `default_sound.wav`.
+- `volume`: (Optional) The playback volume, specified as a value from `0.0` (silent) to `1.0` (maximum).
+  - If this is omitted, the system default volume will be used.
 
 ## License
 
